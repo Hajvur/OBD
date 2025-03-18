@@ -1,0 +1,38 @@
+close all;
+clear all;
+clc
+% trenowanie sieci
+
+x1 = [0 0 1 1];
+x2 = [0 1 0 1];
+y = [0 1 1 0];
+
+x = [x1; x2];
+
+siec_newff = feedforwardnet([20,10])
+siec_newff.trainParam.epochs = 200;
+siec_newff.trainParam.goal = 0;
+siec_newff = train(siec_newff, x, y);
+
+% czesc algorytmu obd
+% 1 wyznaczenie funcji błedu
+% 2 obliczenie gradientu
+% 3 obliczenie drugich pochodnych diagonalnych macierzy hessiego
+% 4 wyznaczenie "istotnosci" wag (damy 50 percentyl z istotnosci)
+% 5 usuniecie wag ponizej poziomu istotnosci
+% i to iteracyjnie
+
+J_e = defaultderiv('de_dwb',siec_newff,x,y);
+hessian = J_e.' * J_e; % dla testow
+hess_diag = diag(J_e.' * J_e);
+
+weights= getwb(siec_newff);
+
+
+
+
+
+
+
+
+    
