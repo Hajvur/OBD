@@ -10,10 +10,10 @@ y = [0 1 1 0];
 x = [x1; x2];
 
 % zalozenia sieci
-epochs = 5000;
-learning_rate = 0.5;
-tolerance = 0.0001;
-lambda = 0.001;
+epochs = 100;
+learning_rate = 0.01;
+tolerance = 0.0000001;
+lambda = 0.01;
 % liczba neuronow w warstwie wejsciowej, ukrytej i wyjsciowej
 H1 = 3;
 H2 = 2;
@@ -22,14 +22,12 @@ R2 = 1;
 % 2 neurony wejsciowe
 % 1 wyjsciowy
 % 2 warstwy ukryte, 3 i 2 neurony
-%zastosowalem scaling Xaviera
-rng(0)
-w1 = randn(H1, R1) * sqrt(2 / (R1 + H1));
-w2 = randn(H2, H1) * sqrt(2 / (H1 + H2));
-w3 = randn(R2, H2) * sqrt(2 / (H2 + R2));
-b1 = zeros(H1, 1);
-b2 = zeros(H2, 1);
-b3 = zeros(R2, 1);
+w1 = randn(H1, R1) * 0.1;
+w2 = randn(H2, H1) * 0.1;
+w3 = randn(R2, H2) * 0.1;
+b1 = randn(H1, 1) * 0.1;
+b2 = randn(H2, 1) * 0.1;
+b3 = randn(R2, 1) * 0.1;
 
 % funkcje pomocnicze
 
@@ -69,11 +67,13 @@ function [y_predict] = forwardpass(w1, w2, w3, b1, b2, b3, x, y, epochs, toleran
         % pochodna sigmoid sigmoid(z3) * (1-sigmoid(z3)) albo podstawiamy od razu y_predict
         [gw1, gw2, gw3, gb1, gb2, gb3] = compute_gradient(error, w2, w3, a1, a2, x, y_predict);
 
-        w1 = w1 - learning_rate * (gw1 + lambda * w1);
+        % aktualizacja wag i biasow
+        w1 = w1 - learning_rate * (gw1 + lambda * w1); 
         w2 = w2 - learning_rate * (gw2 + lambda * w2);
         w3 = w3 - learning_rate * (gw3 + lambda * w3);
-
-        b1 = b1 - learning_rate * gb1;
+        
+        % Aktualizacja biasów BEZ regularyzacji
+        b1 = b1 - learning_rate * gb1; 
         b2 = b2 - learning_rate * gb2;
         b3 = b3 - learning_rate * gb3;
         disp("w3")
