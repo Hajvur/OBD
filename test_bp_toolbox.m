@@ -60,5 +60,7 @@ wh1=NN_model_t.IW{1,1};
 %wh1
 load('gradients.mat');
 
+disp(norm(NN_model_t.LW{3,2} - w3))
 disp(norm(NN_model_t.LW{2,1} - w2))
 disp(norm(NN_model_t.IW{1,1} - w1))
+
