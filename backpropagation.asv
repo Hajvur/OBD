@@ -72,8 +72,7 @@ for epoch = 1:epochs
     b2 = b2 - learning_rate * gb2;
     b3 = b3 - learning_rate * gb3;
 end
-
-save('gradients.mat', 'w1', 'w2', 'w3');
+save('gradients.mat', 'w1', 'dw2', 'dw3');
 
 tr_time = toc;
 
